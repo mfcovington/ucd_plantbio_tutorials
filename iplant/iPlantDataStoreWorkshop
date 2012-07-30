@@ -2,52 +2,59 @@
 
 #iPlant Data Store Tutorial
 
-There are multiple ways to access files and directories on the iPlant Data Store (aka iRODS).  Here we will cover three methods, each with their pros and cons.
+There are multiple ways to access files and directories on the iPlant Data Store (aka iRODS[1]).  Here we will cover three methods, each with their pros and cons.
 
-1. Browser-based Access
-- iCommands
-- iDrop
-- Mounting via Atmosphere instance
+1. **Browser-based Access** --- User-friendly, but low throughput and 2GB upload limit
+- **iCommands** --- High throughput with maximum user control, but must be comfortable with the Command-Line Interface
+- **iDrop** --- High throughput and ability to schedule periodic transfers, but iDrop is in beta release and may have bugs
 
+Regardless of which way you access your data, you need to know where it is located:  
 The path to a user's home directory is `/iplant/home/username/` (replace "username").  
 The path to shared directories accessible by a user is `/iplant/home/shared/`.
 
-___If you don't have an iPlant account:___ You can register for your account at <https://user.iplantcollaborative.org/register/>.  After registering, go to <https://user.iplantcollaborative.org/dashboard/> to request access to the Atmosphere service by clicking on 'Request Access'.
+***If you don't have an iPlant account:*** You can register for your account at <https://user.iplantcollaborative.org/register/>.  After registering, go to <https://user.iplantcollaborative.org/dashboard/> to request access to the Atmosphere service by clicking on 'Request Access'.
 
 
 ##1. Browser-based Access
 
 The iPlant Data Store can be accessed via your browser at <https://data.iplantcollaborative.org> or <https://data.iplantc.org> (you may get a warning that the latter link is attempting to redirect you to the former, but that's okay).  The browser-based method of access is arguably the most intuitive way to access your iPlant data and requires the least amount of setup.  However, there are two major limitations that accompany this convenience: (1) you cannot upload files >2GB and (2) it is difficult or impossible to manipulate or transfer multiple files at the same time via the browser.
 
-Navigation:
+####Navigation:
 
 - <!-- ![][HomeIcon]  -->Quickly change to your home directory by clicking the Home icon in the upper-right of the Data Store interface.
-- Click on directory names or `... Parent Directory` to navigate to your destination *(see note below)*
+- Click on directory names or `... Parent Directory` to navigate to other directories *(see note below)*
 
-
-Uploading and downloading files:
+####Uploading and downloading files
 
 - Click on a file name to download the file *(see note below)*
 - Click `Upload File` to upload file
 
-Checking and modifying access permissions:
+####Checking and modifying access permissions
 
 - Click in the white space to the right of a file/directory name and then click `Access Control` *(see note below)*
 - From here, you can set different combinations of read/write access
 - When setting permissions for directories, the recursive option will change the permission settings for all files and subdirectories
 - Setting a directory to 'sticky' means that any new files/directories created within will inherit the permission settings of the parent directory
 
-Other types of file manipulation are also possible and include:
+####QuickSharing files with anyone (including non-iPlant users):
+
+Although you can alter permissions to allow other iPlant users to have access to your files, this doesn't help if you want to share files via the iPlant Data Store with colleagues that don't have an iPlant account.  To share with the general public, do the following:
+
+- Click in the white space to the right of a file name and then click `Share/Unshare` *(see note below)*
+- After confirming your choice, you will see a URL to the right of the file name in the 'QuickShare' Column.
+
+You can share the URL with people and when they click it, the shared file will download.  Sharing of a file can be stopped by selecting the file and clicking `Share/Unshare` again.  Entire directories cannot be shared in this manner, only individual files.
+
+####Other types of file manipulation are also possible and include:
 
 - creating directories
 - renaming, coping, moving, and deleting files/directories
 
-QuickSharing files with anyone (including non-iPlant users):
+####Deleted Files
 
-- Click in the white space to the right of a file name and then click `Share/Unshare` *(see note below)*
-- This will place a URL in the QuickShare column for the file. Your colleagues can use this URL to download the file.
+Deleted files remain (at least temporarily) in your trash folder until you empty the trash.  Click on the Trash icon to view these files.  Here, you can `Restore` deleted files or `Empty Trash`.
 
-*Note #1: There is one file/directory per row. Clicking on the name or the icon for a file/directory has a different function than clicking on the white space in that row. See above for when to click on the name and when to click on the white space.*
+*Note #1: There is one file/directory per row. Clicking on the name or the icon for a file/directory has a different function than clicking on the white space in that row. Clicking on the white space to the right of the names doesn't change directories or download files, rather it selects the corresoponding file or directory for further manipulation. See above for when to click on the name and when to click on the white space.*
 
 ##2. [iCommands][iCommands]
 
@@ -61,7 +68,7 @@ iCommands allow you to manipulate the files and directories to which you have ac
 + [Initiate an iRODS connection](https://pods.iplantcollaborative.org/wiki/display/start/Using+icommands#Usingicommands-InitiateconnectiontoiRODS) by typing: `iinit`
 
 ####iCommands Examples
-iCommands for transferring files are like their analogous commands, but more robust due to threading:
+iCommands for transferring files are like their analogous commands, but more robust due to threading[2]:
 
 + [`iput`][iput] ≈ ftp `put` - upload
 + [`iget`][iget] ≈ ftp `get` - download
