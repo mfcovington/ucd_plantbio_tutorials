@@ -1,0 +1,245 @@
+(currently in progress)
+
+#iPlant Data Store Tutorial
+
+There are multiple ways to access files and directories on the iPlant Data Store (aka iRODS).  Here we will cover three methods, each with their pros and cons.
+
+1. Browser-based Access
+- iCommands
+- iDrop
+- Mounting via Atmosphere instance
+
+The path to a user's home directory is `/iplant/home/username/` (replace "username").  
+The path to shared directories accessible by a user is `/iplant/home/shared/`.
+
+___If you don't have an iPlant account:___ You can register for your account at <https://user.iplantcollaborative.org/register/>.  After registering, go to <https://user.iplantcollaborative.org/dashboard/> to request access to the Atmosphere service by clicking on 'Request Access'.
+
+
+##1. Browser-based Access
+
+The iPlant Data Store can be accessed via your browser at <https://data.iplantcollaborative.org> or <https://data.iplantc.org> (you may get a warning that the latter link is attempting to redirect you to the former, but that's okay).  The browser-based method of access is arguably the most intuitive way to access your iPlant data and requires the least amount of setup.  However, there are two major limitations that accompany this convenience: (1) you cannot upload files >2GB and (2) it is difficult or impossible to manipulate or transfer multiple files at the same time via the browser.
+
+Navigation:
+
+- <!-- ![][HomeIcon]  -->Quickly change to your home directory by clicking the Home icon in the upper-right of the Data Store interface.
+- Click on directory names or `... Parent Directory` to navigate to your destination *(see note below)*
+
+
+Uploading and downloading files:
+
+- Click on a file name to download the file *(see note below)*
+- Click `Upload File` to upload file
+
+Checking and modifying access permissions:
+
+- Click in the white space to the right of a file/directory name and then click `Access Control` *(see note below)*
+- From here, you can set different combinations of read/write access
+- When setting permissions for directories, the recursive option will change the permission settings for all files and subdirectories
+- Setting a directory to 'sticky' means that any new files/directories created within will inherit the permission settings of the parent directory
+
+Other types of file manipulation are also possible and include:
+
+- creating directories
+- renaming, coping, moving, and deleting files/directories
+
+QuickSharing files with anyone (including non-iPlant users):
+
+- Click in the white space to the right of a file name and then click `Share/Unshare` *(see note below)*
+- This will place a URL in the QuickShare column for the file. Your colleagues can use this URL to download the file.
+
+*Note #1: There is one file/directory per row. Clicking on the name or the icon for a file/directory has a different function than clicking on the white space in that row. See above for when to click on the name and when to click on the white space.*
+
+##2. [iCommands][iCommands]
+
+iCommands allow you to manipulate the files and directories to which you have access on the iPlant Data Store.
+
+
+####Installing and Configuring iCommands
+
++ [Download and install binaries](https://pods.iplantcollaborative.org/wiki/display/start/Using+icommands#Usingicommands-DownloadingicommandsBinaries)
++ [Setup auto-complete (for Bash shell)](https://pods.iplantcollaborative.org/wiki/display/start/Using+icommands#Usingicommands-SetupBashautocompleteforicommands)
++ [Initiate an iRODS connection](https://pods.iplantcollaborative.org/wiki/display/start/Using+icommands#Usingicommands-InitiateconnectiontoiRODS) by typing: `iinit`
+
+####iCommands Examples
+iCommands for transferring files are like their analogous commands, but more robust due to threading:
+
++ [`iput`][iput] ≈ ftp `put` - upload
++ [`iget`][iget] ≈ ftp `get` - download
++ [`irsync`][irsync] ≈ unix `rsync` - synchronize and keep up-to-date
+
+Other [Unix-like iCommands][iCommands_unix]
+
++ [`ils`][ils] - list attributes of a file or the contents of a directory
++ [`icp`][icp] - copy
++ [`imv`][imv] - move or rename
++ [`irm`][irm] - remove/delete
++ [`imkdir`][imkdir] - make directories
++ [`ipwd`][ipwd] - print working directory
++ [`ichmod`][ichmod] - modify permissions
+
+For more detailed usage information, click on the iCommands above, visit the [iCommands website][iCommands], or type the iCommand followed by `-h` in a Terminal window.  For example, `iput -h` outputs the following:
+
+<!-- begin ils example --> 
+>Usage : `ils [-ArlLv] dataObj|collection ...`  
+Display data Objects and collections stored in irods.  
+Options are:  
+
+>|||
+| --- | --- |
+| `-A` | ACL (access control list) and inheritance format  |
+| `-l` | long format  |
+| `-L` | very long format  |
+| `-r` | recursive - show subcollections  |
+| `-v` | verbose  |
+| `-V` | Very verbose  |
+| `-h` | this help|
+ 
+>iRODS Version 2.5 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Feb 2011 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ils
+<!-- end ils example --> 
+
+
+
+
+
+`iput` [example](https://pods.iplantcollaborative.org/wiki/display/start/Using+icommands#Usingicommands-Uploadmultiplefilesoradirectory%28withrecursion%29)
+
+[iPlant Data Store Cheatsheet][iPlant_DataStore_CheatSheet]
+
+[iPlant Data Store Quick Start][iPlant_DataStore_QuickStart]
+
+
+##3. iDrop
+
+[Normal iDrop][iDrop_Tutorial] - Allows access to user's home directory
+
+["Expert" iDrop][iDrop_Expert_Download] - Allows access to shared resources, too
+
+
+##4. Mounting via Atmosphere instance
+
+- Full instructions are located [here][iRODS_Mount]. Below is a summary.
+
+Summary:
+
+1. After connecting to your Atmosphere instance via `VNC` (and opening `Terminal`) or via `SSH`, type: `iinit` to start initiate iCommands.
+
+- Enter the following information if asked:
+>Enter the host name (DNS) of the server to connect to: `data.iplantcollaborative.org`  
+Enter the port number: `1247`  
+Enter your irods user name: `_YOUR_iplantusername`  
+Enter your irods zone: `iplant`  
+Enter your current iRODS password: `_YOUR_iplantpassword`  
+
+- Specify where to mount your iRODS volume by typing, for example: `mkdir $HOME/irods_home`
+
+- Mount your iRODS volume by typing: `irodsFs $HOME/irods_home -o max_readahead=0`
+	- Type `ipwd` to show the the directory of your iRODS volume that will be mounted.
+	- To change select an alternative mount point, use `icd` to change the directory *before* using the `irodsFs` command, for example: `icd /iplant/home/shared/ucd.tomato`.
+
+When I start a new Atmosphere instance and need to mount the iRODS volume at different points, I use the following:
+
+    iinit    #if I haven't already initiated iCommands
+
+    mkdir $HOME/irods_home
+    icd /iplant/home/mfc    #use your own iPlant username instead of "mfc"
+    irodsFs $HOME/irods_home -o max_readahead=0
+
+    mkdir $HOME/tomato
+    icd /iplant/home/shared/ucd.tomato
+    irodsFs $HOME/tomato -o max_readahead=0
+
+    mkdir $HOME/brassica
+    icd /iplant/home/shared/ucd.brassica
+    irodsFs $HOME/brassica -o max_readahead=0
+
+    mkdir $HOME/plantbio
+    icd /iplant/home/shared/ucd.plantbio
+    irodsFs $HOME/plantbio -o max_readahead=0
+
+*Note #1: You may not have access to all of these directories.*  
+*Note #2: Mounting iRODS volumes like this requires installation of FUSE. This is installed by default on the Atmosphere instances and can be installed elsewhere, too.*
+*Note #3: If you mount the wrong volume, etc., you can unmount it with `umount $HOME/irods_home`, for example.*
+
+Slightly off topic, if you are using an EBS volume, you can mount it with the following commands (see *Note#1* below if this is the first time using your EBS volume):
+
+    sudo mkdir /mydata    #the mount point doesn't have to be called "mydata"
+    sudo chown mfc /mydata    #use your own iPlant username instead of "mfc" (when you make the /mydata directory using sudo, it will belong to 'root'; chown is used to change ownership)
+    sudo mount /dev/sdb /mydata
+
+*Note #1: Your volume must be formatted before using the first time. You can do this with `sudo /sbin/mkfs /dev/sdb` as described in the [iPlant wiki][iplant_ebs_mount].*  
+*Note #2: `/dev/sdb` should be the default device if you are only using one EBS volume. If you are using more than one (or `/dev/sdb` doesn't work), check the device in the [Atmosphere][atmosphere] dashboard under "Volume storage management".*
+
+___
+
+___
+
+>>last updated by mike covington @ 2012-07-05
+
+<!--
+spacing: 
+a &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; b
+
+Show where our files are
+demonstrate how to use icommands (and talk about best options to use + need to limit # of threads; also checkpointing)
+ - icd, ils, imv, irm
+ - iput
+ - iget
+ - irsync
+
+iDrop (special version for access to shared)
+
+Browser-based access to iPlant DataStore (iRODS)
+
+
+
+Show where our files are
+demonstrate how to use icommands
+ - icd, ils, imv, irm
+ - iput
+ - iget
+ - irsync
+-->
+
+
+<!-- links --> 
+[iPlant_DataStore]: https://data.iplantcollaborative.org/
+	"iPlant Data Store"
+[iPlant_DataStore_QuickStart]: https://pods.iplantcollaborative.org/wiki/display/start/Data+Store+Quick+Start
+	"iPlant Data Store Quick Start"
+[iPlant_DataStore_CheatSheet]: https://pods.iplantcollaborative.org/wiki/download/attachments/7525221/DataStoreCheatSheet.pdf?version=1&modificationDate=1324329532000
+	"DataStoreCheatSheet.pdf"
+[iCommands_iPlant]: https://pods.iplantcollaborative.org/wiki/display/start/Using+icommands
+	"Using iCommmands"
+[iCommands]: https://www.irods.org/index.php/icommands
+	"iCommands"
+[iCommands_unix]: https://www.irods.org/index.php/icommands#Unix-like_commands
+	"Unix-like iCommands"
+[iDrop_Tutorial]: https://pods.iplantcollaborative.org/wiki/display/start/Using+iDrop
+	"iDrop Tutorial"
+[iDrop_Expert_Download]: https://pods.iplantcollaborative.org/wiki/download/attachments/7519648/idrop-expert.jar
+	"iDrop 'Expert'"
+[iRODS_QuickStart]: https://pods.iplantcollaborative.org/wiki/display/docs/iRODS+Quick+Start+Examples
+	"iRods Quick Start"
+[iRODS_Mount]: https://pods.iplantcollaborative.org/wiki/display/start/Mounting+the+iRODS+Directory+with+FUSE
+	"Mounting iRODS"
+[ils]: https://www.irods.org/index.php/ils
+	"ils"
+[imv]: https://www.irods.org/index.php/imv
+	"imv"
+[icp]: https://www.irods.org/index.php/icp
+	"icp"
+    
+[imkdir]: https://www.irods.org/index.php/imkdir "imkdir"
+[ipwd]: https://www.irods.org/index.php/ipwd "ipwd"
+[irm]: https://www.irods.org/index.php/irm "irm"
+[ichmod]: https://www.irods.org/index.php/ichmod "ichmod"
+[iput]: https://www.irods.org/index.php/iput "iput"
+[iget]: https://www.irods.org/index.php/iget "iget"
+[irsync]: https://www.irods.org/index.php/irsync "irsync"
+[atmosphere]: https://atmo-beta.iplantcollaborative.org/ "atmosphere"
+[iplant_ebs_mount]: https://pods.iplantcollaborative.org/wiki/display/atmman/Attaching+an+EBS+Volume+to+an+Instance#AttachinganEBSVolumetoanInstance-AttachinganEBSvolumetoaninstance
+
+
+<!-- images -->
+[HomeIcon]: https://data.iplantcollaborative.org/images/home.png
+	"Shortcut to Home Directory"
