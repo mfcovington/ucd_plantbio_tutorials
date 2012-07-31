@@ -152,6 +152,14 @@ Breakdown of sample:
 - `-T` renews socket connection after 10 minutes (helps keep things stable and robust)
 - `-X` turns on the checkpointing function; must specify a temporary checkpoint file *(see notes for `iput` regarding checkpointing)*
 
+#####Syncing files with `irsync`
+
+Sample commands:
+
+- `irsync -rV` `local_file_or_directory` `i:remote_target_file_or_directory`
+- `irsync -rV` `i:remote_file_or_directory` `local_target_file_or_directory` 
+- `irsync -rV` `i:remote_file_or_directory` `i:remote_target_file_or_directory` 
+
 ##3. iDrop
 
 iDrop is a program that allows the transfer of large files in a high throughput manner. It also has the capability for scheduling periodic transfers:
