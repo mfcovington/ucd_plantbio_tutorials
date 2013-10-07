@@ -218,10 +218,10 @@ Slightly off topic, if you are using an EBS volume, you can mount it with the fo
 
     sudo mkdir /mydata    #the mount point doesn't have to be called "mydata"
     sudo chown mfc /mydata    #use your own iPlant username instead of "mfc" (when you make the /mydata directory using sudo, it will belong to 'root'; chown is used to change ownership)
-    sudo mount /dev/sdb /mydata
+    sudo mount /dev/xvdb /mydata
 
-*__Note #1__: Your volume must be formatted before using the first time. You can do this with `sudo /sbin/mkfs /dev/sdb` as described in the [iPlant wiki][iplant_ebs_mount].*  
-*__Note #2__: `/dev/sdb` should be the default device if you are only using one EBS volume. If you are using more than one (or `/dev/sdb` doesn't work), check the device in the [Atmosphere][atmosphere] dashboard under "Volume storage management".*
+*__Note #1__: Your volume must be formatted before using the first time. You can do this with `sudo /sbin/mkfs /dev/xvdb` as described in the [iPlant wiki][iplant_ebs_mount].*  
+*__Note #2__: `/dev/xvdb` should be the default device if you are only using one EBS volume. If you are using more than one (or `/dev/xvdb` doesn't work), check the device in the [Atmosphere][atmosphere] dashboard under "Volume storage management".*
 
 ___
 
